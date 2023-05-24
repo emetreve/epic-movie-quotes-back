@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ConfirmEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,4 @@ Route::controller(AuthController::class)->group(function () {
 	Route::post('/signup', 'signup')->name('signup');
 });
 
-Route::get('/email/verify', [AuthController::class, 'verifyEmail'])->middleware('auth')->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyEmail'])->name('verification.verify');

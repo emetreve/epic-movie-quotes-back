@@ -24,12 +24,4 @@ class AuthController extends Controller
 			'success' => 200,
 		]);
 	}
-
-	public function verifyEmail()
-	{
-		return response()->json([
-			'success' => 200,
-			'message' => 'email verification sent',
-		]);
-	}
 }
