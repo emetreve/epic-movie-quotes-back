@@ -3,17 +3,29 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 class ConfirmEmailController extends Controller
 {
-	public function verifyEmail(EmailVerificationRequest $request)
+	public function verifyEmail(Request $request)
 	{
-		$request->fulfill();
+		$userId = $request->route('id');
 
-		Auth::logout();
+		$user = User::find($userId);
 
-		return response(['message' => 'email verified']);
+		if (!hash_equals((string) $user->getKey(), (string) $userId)) {
+			return response()->json([
+				'failure' => 400,
+			]);
+		}
+
+		if (!$user->email_verified_at) {
+			$user->markEmailAsVerified();
+		}
+
+		return response()->json([
+			'success' => 200,
+		]);
 	}
 }
