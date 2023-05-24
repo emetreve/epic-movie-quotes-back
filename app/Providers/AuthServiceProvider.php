@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
 	public function boot(): void
 	{
 		VerifyEmail::toMailUsing(function ($notifiable, $url) {
-			$spaDomain = 'http://localhost:3000/';
+			$spaDomain = config('app.spa_domain');
 
 			$path = parse_url($url, PHP_URL_PATH);
 			$query = parse_url($url, PHP_URL_QUERY);
@@ -38,9 +38,9 @@ class AuthServiceProvider extends ServiceProvider
 			}
 
 			return (new MailMessage)
-				->subject('email-verification.email_subject')
-				->line('email-verification.email_line')
-				->action('email-verification.email_action', $transformedUrl);
+				->subject('SUBJECT')
+				->line('SUBJECTLINE')
+				->action('BUTTON_TEXT', $transformedUrl);
 		});
 	}
 }
