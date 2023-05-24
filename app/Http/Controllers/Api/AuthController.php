@@ -5,22 +5,31 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SignUpRequest;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
 	public function signup(SignUpRequest $request)
 	{
-		$data = $request->validated();
+		$credentials = $request->validated();
+		$credentials['password'] = bcrypt($credentials['password']);
 
-		$user = User::create([
-			'name'    => $data['name'],
-			'email'   => $data['email'],
-			'password'=> bcrypt($data['password']),
+		$user = User::create($credentials);
+		Auth::loginUsingId($user->id);
+
+		event(new Registered($user));
+
+		return response()->json([
+			'success' => 200,
 		]);
+	}
 
-		/** @var User $user */
-		$token = $user->createToken('main')->plainTextToken;
-
-		return response(compact('user', 'token'));
+	public function verifyEmail()
+	{
+		return response()->json([
+			'success' => 200,
+			'message' => 'email verification sent',
+		]);
 	}
 }
