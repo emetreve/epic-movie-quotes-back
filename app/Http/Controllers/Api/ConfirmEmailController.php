@@ -12,12 +12,20 @@ class ConfirmEmailController extends Controller
 	{
 		$userId = $request->route('id');
 
+		$hash = $request->route('hash');
+
 		$user = User::find($userId);
 
 		if (!hash_equals((string) $user->getKey(), (string) $userId)) {
 			return response()->json([
 				'failure' => 400,
-			]);
+			], 400);
+		}
+
+		if (!hash_equals(sha1($user->email), (string) $hash)) {
+			return response()->json([
+				'hash_failure' => 400,
+			], 400);
 		}
 
 		if (!$user->email_verified_at) {
@@ -26,6 +34,6 @@ class ConfirmEmailController extends Controller
 
 		return response()->json([
 			'success' => 200,
-		]);
+		], 200);
 	}
 }
