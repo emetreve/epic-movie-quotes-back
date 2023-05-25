@@ -16,6 +16,6 @@ class PasswordController extends Controller
 
 		return $status === Password::RESET_LINK_SENT
 			? response()->json(['message' => 'Reset link sent successfully'], 200)
-			: response()->json(['error' => 'Unable to send reset link'], 422);
+			: response()->json(['error' => 'Such email was not found with us'], 422);
 	}
 }
