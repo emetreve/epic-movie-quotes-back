@@ -4,15 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Http\Request;
+use App\Http\Requests\ForgotPasswordRequest;
 
 class PasswordController extends Controller
 {
-	public function requestChange(Request $request)
+	public function requestChange(ForgotPasswordRequest $request)
 	{
-		$request->validate([
-			'email' => 'required|email',
-		]);
+		$request->validated();
 
 		$status = Password::sendResetLink($request->only('email'));
 
