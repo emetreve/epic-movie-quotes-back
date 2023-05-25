@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-	'spa_domain' => 'http://localhost:3000/',
+	'spa_domain' => env('SPA_DOMAIN'),
 
 	/*
 	|--------------------------------------------------------------------------
