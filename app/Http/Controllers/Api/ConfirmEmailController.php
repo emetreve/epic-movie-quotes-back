@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 
 class ConfirmEmailController extends Controller
 {
-	public function verifyEmail(Request $request)
+	public function verifyEmail(Request $request): JsonResponse
 	{
 		$userId = $request->route('id');
 

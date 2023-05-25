@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 use App\Http\Requests\ForgotPasswordRequest;
+use Illuminate\Http\JsonResponse;
 
 class PasswordController extends Controller
 {
-	public function requestChange(ForgotPasswordRequest $request)
+	public function requestChange(ForgotPasswordRequest $request): JsonResponse
 	{
 		$request->validated();
 
