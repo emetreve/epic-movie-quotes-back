@@ -6,6 +6,7 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -37,10 +38,13 @@ class AuthServiceProvider extends ServiceProvider
 				$transformedUrl .= '&' . $query;
 			}
 
+			$userName = $user = User::find($id)->name;
+
 			return (new MailMessage)
 				->subject('SUBJECT')
 				->line('SUBJECTLINE')
-				->action('BUTTON_TEXT', $transformedUrl);
+				->action('BUTTON_TEXT', $transformedUrl)
+				->view('emails.verify-email', ['url' => $transformedUrl, 'name'=>$userName]);
 		});
 	}
 }

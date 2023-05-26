@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConfirmEmailController;
+use App\Http\Controllers\Api\PasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,5 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyEmail'])->name('verification.verify');
+
+Route::post('/forgot-password', [PasswordController::class, 'requestChange'])->name('password.email');
