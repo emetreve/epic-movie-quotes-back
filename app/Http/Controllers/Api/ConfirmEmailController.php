@@ -18,7 +18,7 @@ class ConfirmEmailController extends Controller
 
 		$user = User::find($userId);
 
-		$expirationTime = $user->created_at->addMinutes(60);
+		$expirationTime = $user->updated_at->addMinutes(10);
 		$currentTimestamp = Carbon::now();
 		if ($currentTimestamp->gt($expirationTime)) {
 			return response()->json([
