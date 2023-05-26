@@ -35,6 +35,9 @@ class PasswordController extends Controller
 					'password' => Hash::make($password),
 				])->setRememberToken(Str::random(60));
 
+				if (!$user->hasVerifiedEmail()) {
+					$user->markEmailAsVerified();
+				}
 				$user->save();
 			}
 		);
