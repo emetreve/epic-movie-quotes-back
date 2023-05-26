@@ -28,3 +28,5 @@ Route::controller(AuthController::class)->group(function () {
 Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyEmail'])->name('verification.verify');
 
 Route::post('/forgot-password', [PasswordController::class, 'requestChange'])->name('password.email');
+
+Route::post('/reset-password', [PasswordController::class, 'reset'])->name('password.update');
