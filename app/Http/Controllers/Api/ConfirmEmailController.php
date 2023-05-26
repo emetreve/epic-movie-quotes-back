@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 
 class ConfirmEmailController extends Controller
 {
@@ -16,6 +17,14 @@ class ConfirmEmailController extends Controller
 		$hash = $request->route('hash');
 
 		$user = User::find($userId);
+
+		$expirationTime = $user->created_at->addMinutes(60);
+		$currentTimestamp = Carbon::now();
+		if ($currentTimestamp->gt($expirationTime)) {
+			return response()->json([
+				'token_expired' => 400,
+			], 400);
+		}
 
 		if (!hash_equals((string) $user->getKey(), (string) $userId)) {
 			return response()->json([

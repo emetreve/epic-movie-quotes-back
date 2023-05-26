@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -18,6 +19,24 @@ class AuthController extends Controller
 
 		$user = User::create($credentials);
 		Auth::loginUsingId($user->id);
+
+		event(new Registered($user));
+
+		return response()->json([
+			'success' => 200,
+		]);
+	}
+
+	public function resendEmailLink(Request $request)
+	{
+		$userId = $request->route('id');
+		$user = User::find($userId);
+
+		if (!$user) {
+			return response()->json([
+				'error' => 'User not found',
+			], 400);
+		}
 
 		event(new Registered($user));
 
