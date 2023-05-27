@@ -42,7 +42,7 @@ class AuthController extends Controller
 		$authWithName = auth()->attempt(['name' => $attributes['user'], 'password' => $attributes['password']], $rememberMe);
 		$authWithEmail = auth()->attempt(['email' => $attributes['user'], 'password' => $attributes['password']], $rememberMe);
 
-		//TODO: should I respond with something else if user does not have verified email?
+		// TODO: respond with some custom message if user does not have verified email
 
 		if ($authWithName || $authWithEmail) {
 			return response()->json([
