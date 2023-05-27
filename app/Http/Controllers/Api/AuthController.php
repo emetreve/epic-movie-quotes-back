@@ -42,12 +42,7 @@ class AuthController extends Controller
 		$authWithName = auth()->attempt(['name' => $attributes['user'], 'password' => $attributes['password']], $rememberMe);
 		$authWithEmail = auth()->attempt(['email' => $attributes['user'], 'password' => $attributes['password']], $rememberMe);
 
-		//TODO: should I show resend_email_verification_link ?
-		// if ($user && !$user->email_verified_at) {
-		// 	if ($authWithName || $authWithEmail) {
-		// 		return redirect(route('verification.notice'));
-		// 	}
-		// }
+		//TODO: should I respond with something else if user does not have verified email?
 
 		if ($authWithName || $authWithEmail) {
 			return response()->json([
@@ -55,7 +50,7 @@ class AuthController extends Controller
 			]);
 		} else {
 			throw ValidationException::withMessages([
-				'user' => ['auth failed..'],
+				'user' => ['incorrect credensials'],
 			]);
 		}
 
@@ -78,6 +73,18 @@ class AuthController extends Controller
 
 		$user->sendEmailVerificationNotification();
 
+		return response()->json([
+			'success' => 200,
+		]);
+	}
+
+	public function getUser()
+	{
+		return response()->json(['user' => auth()->user()]);
+	}
+
+	public function checkIfLoggedIn()
+	{
 		return response()->json([
 			'success' => 200,
 		]);

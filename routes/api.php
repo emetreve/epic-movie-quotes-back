@@ -32,3 +32,8 @@ Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyE
 Route::post('/forgot-password', [PasswordController::class, 'requestChange'])->name('password.email');
 
 Route::post('/reset-password', [PasswordController::class, 'reset'])->name('password.update');
+
+Route::middleware(['verified', 'auth:sanctum'])->group(function () {
+	Route::get('/check', [AuthController::class, 'checkIfLoggedIn'])->name('check');
+	Route::get('/user', [AuthController::class, 'getUser'])->name('user');
+});
