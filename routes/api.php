@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(AuthController::class)->group(function () {
+	Route::post('/login', 'login')->name('login');
 	Route::post('/signup', 'signup')->name('signup');
 	Route::get('/resend-email-verification-link', 'resendEmailLink')->name('resendEmailLink');
 });

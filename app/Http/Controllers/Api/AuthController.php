@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LogInRequest;
 use App\Http\Requests\SignUpRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -26,6 +28,38 @@ class AuthController extends Controller
 		return response()->json([
 			'success' => 200,
 		]);
+	}
+
+	public function login(LogInRequest $request)
+	{
+		$attributes = $request->validated();
+
+		$rememberMe = $attributes['remember'];
+
+		$user = User::where('name', $attributes['user'])
+		->orWhere('email', $attributes['user'])->first();
+
+		$authWithName = auth()->attempt(['name' => $attributes['user'], 'password' => $attributes['password']], $rememberMe);
+		$authWithEmail = auth()->attempt(['email' => $attributes['user'], 'password' => $attributes['password']], $rememberMe);
+
+		//TODO: should I show resend_email_verification_link ?
+		// if ($user && !$user->email_verified_at) {
+		// 	if ($authWithName || $authWithEmail) {
+		// 		return redirect(route('verification.notice'));
+		// 	}
+		// }
+
+		if ($authWithName || $authWithEmail) {
+			return response()->json([
+				'success' => 200,
+			]);
+		} else {
+			throw ValidationException::withMessages([
+				'user' => ['auth failed..'],
+			]);
+		}
+
+		session()->regenerate();
 	}
 
 	public function resendEmailLink(Request $request)
