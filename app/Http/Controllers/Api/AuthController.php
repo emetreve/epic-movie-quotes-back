@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class AuthController extends Controller
 {
@@ -29,7 +30,7 @@ class AuthController extends Controller
 
 	public function resendEmailLink(Request $request)
 	{
-		$userId = $request->route('id');
+		$userId = $request->id;
 		$user = User::find($userId);
 
 		if (!$user) {
@@ -38,7 +39,10 @@ class AuthController extends Controller
 			], 400);
 		}
 
-		event(new Registered($user));
+		$user->updated_at = Carbon::now();
+		$user->save();
+
+		$user->sendEmailVerificationNotification();
 
 		return response()->json([
 			'success' => 200,
