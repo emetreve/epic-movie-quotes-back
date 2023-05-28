@@ -30,7 +30,7 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function login(LogInRequest $request)
+	public function login(LogInRequest $request): JsonResponse
 	{
 		$attributes = $request->validated();
 
@@ -57,7 +57,7 @@ class AuthController extends Controller
 		session()->regenerate();
 	}
 
-	public function resendEmailLink(Request $request)
+	public function resendEmailLink(Request $request): JsonResponse
 	{
 		$userId = $request->id;
 		$user = User::find($userId);
@@ -78,12 +78,12 @@ class AuthController extends Controller
 		]);
 	}
 
-	public function getUser()
+	public function getUser(): JsonResponse
 	{
 		return response()->json(['user' => auth()->user()]);
 	}
 
-	public function checkIfLoggedIn()
+	public function checkIfLoggedIn(): JsonResponse
 	{
 		return response()->json([
 			'success' => 200,

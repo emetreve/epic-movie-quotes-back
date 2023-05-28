@@ -4,10 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConfirmEmailController;
+use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\PasswordController;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,28 +28,10 @@ Route::controller(AuthController::class)->group(function () {
 	Route::get('/resend-email-verification-link', 'resendEmailLink')->name('resendEmailLink');
 });
 
-// Route::controller(GoogleController::class)->group(function () {
-Route::get('/auth/redirect', function () {
-	return Socialite::driver('google')->redirect();
+Route::controller(GoogleController::class)->group(function () {
+	Route::get('/auth/redirect', 'redirect');
+	Route::get('/auth/callback', 'callback');
 });
-Route::get('/auth/callback', function () {
-	$incomingUser = Socialite::driver('google')->user();
-
-	$user = User::updateOrCreate([
-		'name' => $incomingUser->name,
-		'email'=> $incomingUser->email,
-	]);
-	if (!$user->email_verified_at) {
-		$user->markEmailAsVerified();
-	}
-
-	Auth::login($user);
-	session()->regenerate();
-
-	$redirectUrl = env('SPA_DOMAIN') . '/dashboard/newsfeed';
-	return redirect($redirectUrl);
-});
-// });
 
 Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyEmail'])->name('verification.verify');
 
