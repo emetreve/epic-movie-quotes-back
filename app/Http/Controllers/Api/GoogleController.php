@@ -5,19 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 
 class GoogleController extends Controller
 {
-	public function redirect(): RedirectResponse
+	public function redirect()
 	{
-		return Socialite::driver('google')->redirect();
+		$url = Socialite::driver('google')->redirect()->getTargetUrl();
+		return response()->json(['url' => $url]);
 	}
 
-	public function callback(): RedirectResponse
+	public function callback(Request $request)
 	{
-		$incomingUser = Socialite::driver('google')->user();
+		// $incomingUser = Socialite::driver('google')->stateless()->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))->user();
+		$incomingUser = Socialite::driver('google')->stateless()->user();
 
 		$user = User::updateOrCreate([
 			'name' => $incomingUser->name,
@@ -30,7 +32,7 @@ class GoogleController extends Controller
 		Auth::login($user);
 		session()->regenerate();
 
-		$redirectUrl = env('SPA_DOMAIN') . '/dashboard/newsfeed';
-		return redirect($redirectUrl);
+		return response()->json(['user'=>$user]);
+		session()->regenerate();
 	}
 }
