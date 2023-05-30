@@ -7,16 +7,17 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class GoogleController extends Controller
 {
-	public function redirect()
+	public function redirect(): JsonResponse
 	{
 		$url = Socialite::driver('google')->redirect()->getTargetUrl();
 		return response()->json(['url' => $url]);
 	}
 
-	public function callback(Request $request)
+	public function callback(Request $request): JsonResponse
 	{
 		$incomingUser = Socialite::driver('google')->stateless()->user();
 
