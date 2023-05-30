@@ -21,21 +21,6 @@ class GoogleController extends Controller
 	{
 		$incomingUser = Socialite::driver('google')->stateless()->user();
 
-		// $user = User::updateOrCreate([
-		// 	'name'          => $incomingUser->name,
-		// 	'email'         => $incomingUser->email,
-		// 	'is_google_user'=> true,
-		// ]);
-		// if (!$user->email_verified_at) {
-		// 	$user->markEmailAsVerified();
-		// }
-
-		// Auth::login($user);
-		// session()->regenerate();
-
-		// return response()->json(['user'=>$user]);
-		// session()->regenerate();
-
 		$user = User::where('email', $incomingUser->email)->first();
 
 		if (!$user) {
