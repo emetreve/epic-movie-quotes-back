@@ -46,11 +46,9 @@ class GoogleController extends Controller
 			]);
 			$user->markEmailAsVerified();
 			Auth::login($user);
-			session()->regenerate();
 			return response()->json(['message' => 'User created successfully', 'user' => $user]);
 		} elseif ($user->is_google_user === 1) {
 			Auth::login($user);
-			session()->regenerate();
 			return response()->json(['message' => 'User logged in successfully', 'user' => $user]);
 		} else {
 			return response()->json(['message' => 'User is not a Google user']);
