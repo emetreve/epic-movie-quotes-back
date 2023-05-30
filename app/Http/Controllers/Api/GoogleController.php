@@ -18,7 +18,6 @@ class GoogleController extends Controller
 
 	public function callback(Request $request)
 	{
-		// $incomingUser = Socialite::driver('google')->stateless()->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))->user();
 		$incomingUser = Socialite::driver('google')->stateless()->user();
 
 		$user = User::updateOrCreate([
