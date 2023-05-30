@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConfirmEmailController;
+use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\PasswordController;
 
 /*
@@ -25,6 +26,11 @@ Route::controller(AuthController::class)->group(function () {
 	Route::post('/login', 'login')->name('login');
 	Route::post('/signup', 'signup')->name('signup');
 	Route::get('/resend-email-verification-link', 'resendEmailLink')->name('resendEmailLink');
+});
+
+Route::controller(GoogleController::class)->group(function () {
+	Route::get('/auth/redirect', 'redirect');
+	Route::get('/auth/callback', 'callback');
 });
 
 Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyEmail'])->name('verification.verify');
