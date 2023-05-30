@@ -21,7 +21,7 @@ class GoogleController extends Controller
 	{
 		$incomingUser = Socialite::driver('google')->stateless()->user();
 
-		$user = User::where('email', $incomingUser->email)->first();
+		$user = User::where('email', $incomingUser->email)->where('is_google_user', 1)->first();
 
 		if (!$user) {
 			$user = User::create([
@@ -36,7 +36,7 @@ class GoogleController extends Controller
 			Auth::login($user);
 			return response()->json(['message' => 'User logged in successfully', 'user' => $user]);
 		} else {
-			return response()->json(['message' => 'User is not a Google user']);
+			return response()->json(['message' => 'User is not a Google user'], 400);
 		}
 	}
 }
