@@ -89,4 +89,15 @@ class AuthController extends Controller
 			'success' => 200,
 		]);
 	}
+
+	public function logout()
+	{
+		auth()->logout();
+
+		request()->session()->invalidate();
+
+		request()->session()->regenerateToken();
+
+		return response(['message' => 'User was logged out']);
+	}
 }
