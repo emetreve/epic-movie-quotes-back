@@ -22,14 +22,14 @@ class PasswordResetServiceProvider extends ServiceProvider
 	public function boot(): void
 	{
 		ResetPassword::toMailUsing(function (User $user, $token) {
-			// $url = url(route('password.reset', ['token' => $token, 'email' => $user->getEmailForPasswordReset()], false));
 			$spaDomain = config('app.spa_domain');
 			$url = $spaDomain . '/?token=' . $token . '&email=' . $user->getEmailForPasswordReset();
+			$userName = $user->name;
 
 			return (new MailMessage)
-				->subject(__('password-reset.email_subject'))
-				->line(__('password-reset.email_line'))
-				->action(__('password-reset.email_action'), $url);
+				->subject('Reset Password')
+				->line('Reset Password')
+				->view('emails.reset-password', ['url' => $url, 'name'=>$userName]);
 		});
 	}
 }

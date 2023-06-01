@@ -41,9 +41,8 @@ class AuthServiceProvider extends ServiceProvider
 			$userName = $user = User::find($id)->name;
 
 			return (new MailMessage)
-				->subject('SUBJECT')
-				->line('SUBJECTLINE')
-				->action('BUTTON_TEXT', $transformedUrl)
+				->subject('Verify Email')
+				->line('Verify Email')
 				->view('emails.verify-email', ['url' => $transformedUrl, 'name'=>$userName]);
 		});
 	}
