@@ -92,11 +92,7 @@ class AuthController extends Controller
 
 	public function logout()
 	{
-		auth()->logout();
-
-		request()->session()->invalidate();
-
-		request()->session()->regenerateToken();
+		Auth::logout();
 
 		return response(['message' => 'User was logged out']);
 	}
