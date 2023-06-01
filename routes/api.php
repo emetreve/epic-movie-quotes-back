@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(AuthController::class)->group(function () {
 	Route::post('/login', 'login')->name('login');
+	Route::get('/logout', 'logout')->middleware('auth')->name('logout');
 	Route::post('/signup', 'signup')->name('signup');
 	Route::get('/resend-email-verification-link', 'resendEmailLink')->name('resendEmailLink');
 });
@@ -39,7 +40,7 @@ Route::post('/forgot-password', [PasswordController::class, 'requestChange'])->n
 
 Route::post('/reset-password', [PasswordController::class, 'reset'])->name('password.update');
 
-Route::middleware(['verified', 'auth:sanctum'])->group(function () {
+Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/check', [AuthController::class, 'checkIfLoggedIn'])->name('check');
 	Route::get('/user', [AuthController::class, 'getUser'])->name('user');
 });

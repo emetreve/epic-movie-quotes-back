@@ -89,4 +89,11 @@ class AuthController extends Controller
 			'success' => 200,
 		]);
 	}
+
+	public function logout()
+	{
+		Auth::logout();
+
+		return response(['message' => 'User was logged out']);
+	}
 }
