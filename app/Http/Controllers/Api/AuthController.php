@@ -86,8 +86,9 @@ class AuthController extends Controller
 	public function checkIfLoggedIn(): JsonResponse
 	{
 		return response()->json([
-			'success' => 200,
-		]);
+			'success' => true,
+			'user'    => auth()->user(),
+		], 200);
 	}
 
 	public function logout()
