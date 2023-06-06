@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
-use App\Models\User;
 
 class ProfileController extends Controller
 {
-	public function editUserData(UpdateUserRequest $request): JsonResponse
+	public function update(UpdateUserRequest $request): JsonResponse
 	{
 		$data = $request->validated();
 
-		$user = User::where('id', auth()->id())->first();
+		/** @var \App\Models\User $user */
+		$user = auth()->user();
 
 		if ($user) {
 			if (isset($data['username'])) {
@@ -25,7 +25,7 @@ class ProfileController extends Controller
 				$user->password = Hash::make($data['password']);
 			}
 
-			$user->update();
+			$user->save();
 
 			return response()->json([
 				'success' => true,
