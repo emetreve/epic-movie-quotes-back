@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ConfirmEmailController;
 use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\PasswordController;
+use App\Http\Controllers\Api\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +44,5 @@ Route::post('/reset-password', [PasswordController::class, 'reset'])->name('pass
 Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/check', [AuthController::class, 'checkIfLoggedIn'])->name('check');
 	Route::get('/user', [AuthController::class, 'getUser'])->name('user');
+	Route::post('/edit-user-data', [ProfileController::class, 'update'])->name('updateUser');
 });
