@@ -25,6 +25,10 @@ class ProfileController extends Controller
 				$user->password = Hash::make($data['password']);
 			}
 
+			if (isset($data['avatar'])) {
+				$user->avatar = '/storage/' . $request->file('avatar')->store('avatars');
+			}
+
 			$user->save();
 
 			return response()->json([
