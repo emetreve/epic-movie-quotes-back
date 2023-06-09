@@ -28,7 +28,6 @@ class PasswordResetServiceProvider extends ServiceProvider
 
 			app()->setLocale($locale);
 
-
 			$url = $spaDomain . '/' . $locale . '/?token=' . $token . '&email=' . $user->getEmailForPasswordReset();
 			$userName = $user->name;
 
