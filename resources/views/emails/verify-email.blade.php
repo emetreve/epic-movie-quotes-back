@@ -31,29 +31,20 @@
         <img id="image" style="display: block; margin-left: auto; margin-right: auto;"
             src="{{ asset('images/confirm-email.png') }}" alt='confirm email' />
         <p style="text-align: center; color:#DDCCAA;">MOVIE QUOTES</p>
-        <p style="margin-top: 80px; margin-bottom: 24px; font-family: sans-serif">Hola {{ $name }}!</p>
-        <p style="margin-bottom: 50px; margin-top: 40px; font-family: sans-serif">Thanks for joining Movie quotes! We
-            really appreciate
-            it. Please click the
-            button
-            below to verify your
-            account:</p>
+        <p style="margin-top: 80px; margin-bottom: 24px; font-family: sans-serif">{{ __('verify-email.hola') }}
+            {{ $name }}!</p>
+        <p style="margin-bottom: 50px; margin-top: 40px; font-family: sans-serif">{{ __('verify-email.thanks') }}</p>
         <a style="background-color: #E31221; padding: 7px 13px; border-radius: 4px; color:white; text-decoration:none; font-family: sans-serif"
-            href={{ $url }}>Verify
-            account</a>
-        <p style="margin-top: 40px; margin-top: 40px; display: block; margin-bottom: 24px; font-family: sans-serif">If
-            clicking
-            doesn't work, you can try
-            copying and pasting it to
-            your browser:</p>
+            href={{ $url }}>{{ __('verify-email.verify_account') }}</a>
+        <p style="margin-top: 40px; margin-top: 40px; display: block; margin-bottom: 24px; font-family: sans-serif">
+            {{ __('verify-email.paste') }}</p>
         <div style="word-break: break-all">
             <p style="color: #DDCCAA; margin-bottom: 40px; font-family: sans-serif">
                 {{ $url }}
             </p>
         </div>
-        <p style='margin-bottom: 24px; font-family: sans-serif;'>If you have any problems, please contact us:
-            support@moviequotes.ge</p>
-        <p style="font-family: sans-serif">MovieQuotes Crew</p>
+        <p style='margin-bottom: 24px; font-family: sans-serif;'>{{ __('verify-email.contact') }}</p>
+        <p style="font-family: sans-serif">{{ __('verify-email.crew') }}</p>
     </div>
 </body>
 

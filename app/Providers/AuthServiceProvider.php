@@ -40,9 +40,12 @@ class AuthServiceProvider extends ServiceProvider
 
 			$userName = $user = User::find($id)->name;
 
+			$locale = request()->query('locale', 'en');
+			app()->setLocale($locale);
+
 			return (new MailMessage)
-				->subject('Verify Email')
-				->line('Verify Email')
+				->subject(__('verify-email.verify_account'))
+				->line(__('verify-email.verify_account'))
 				->view('emails.verify-email', ['url' => $transformedUrl, 'name'=>$userName]);
 		});
 	}
