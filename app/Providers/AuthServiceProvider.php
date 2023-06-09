@@ -29,19 +29,19 @@ class AuthServiceProvider extends ServiceProvider
 			$path = parse_url($url, PHP_URL_PATH);
 			$query = parse_url($url, PHP_URL_QUERY);
 
+			$locale = request()->query('locale', 'en');
+			app()->setLocale($locale);
+
 			$pathSegments = explode('/', $path);
 			$id = $pathSegments[4];
 			$token = $pathSegments[5];
-			$transformedUrl = rtrim($spaDomain, '/') . '/?' . http_build_query(['id' => $id, 'token' => $token]);
+			$transformedUrl = rtrim($spaDomain, '/') . '/' . $locale . '/?' . http_build_query(['id' => $id, 'token' => $token]);
 
 			if ($query) {
 				$transformedUrl .= '&' . $query;
 			}
 
 			$userName = $user = User::find($id)->name;
-
-			$locale = request()->query('locale', 'en');
-			app()->setLocale($locale);
 
 			return (new MailMessage)
 				->subject(__('verify-email.verify_account'))
