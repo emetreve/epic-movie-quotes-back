@@ -23,12 +23,17 @@ class PasswordResetServiceProvider extends ServiceProvider
 	{
 		ResetPassword::toMailUsing(function (User $user, $token) {
 			$spaDomain = config('app.spa_domain');
-			$url = $spaDomain . '/?token=' . $token . '&email=' . $user->getEmailForPasswordReset();
+
+			$locale = request()->query('locale');
+
+			app()->setLocale($locale);
+
+			$url = $spaDomain . '/' . $locale . '/?token=' . $token . '&email=' . $user->getEmailForPasswordReset();
 			$userName = $user->name;
 
 			return (new MailMessage)
-				->subject('Reset Password')
-				->line('Reset Password')
+				->subject(__('reset-password.reset_password'))
+				->line(__('reset-password.reset_password'))
 				->view('emails.reset-password', ['url' => $url, 'name'=>$userName]);
 		});
 	}

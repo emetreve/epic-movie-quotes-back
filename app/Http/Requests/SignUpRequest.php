@@ -19,4 +19,18 @@ class SignUpRequest extends FormRequest
 			'password' => 'required|confirmed|max:15|min:8|regex:/^[a-z0-9]+$/',
 		];
 	}
+
+	public function messages()
+	{
+		return [
+			'name.unique' => [
+				'en' => 'The name has already been taken.',
+				'ka' => 'ასეთი სახელი უკვე არსებობს.',
+			],
+			'email.unique' => [
+				'en' => 'The email has already been taken.',
+				'ka' => 'ასეთი იმეილი უკვე არსებობს.',
+			],
+		];
+	}
 }

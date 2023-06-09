@@ -19,9 +19,16 @@ class PasswordController extends Controller
 
 		$status = Password::sendResetLink($request->only('email'));
 
+		$emailExists = User::where('email', $request->only('email'))->exists();
+
 		return $status === Password::RESET_LINK_SENT
 			? response()->json(['message' => 'Reset link sent successfully'], 200)
-			: response()->json(['errors' => ['email' => [__($status)]]], 422);
+			: ($emailExists ? response()->json(['errors' => ['email' => [
+				'en' => 'Please wait before retrying.',
+				'ka' => 'გთხოვთ, დაიცადოთ სანამ ხელახლა ცდით.', ]]], 422)
+				: response()->json(['errors' => ['email' => [
+					'en' => 'We can not find a user with that email address.',
+					'ka' => 'მომხმარებელი ასეთი იმეილით ვერ მოიძებნა.', ]]], 422));
 	}
 
 	public function reset(ResetPasswordRequest $request): JsonResponse
