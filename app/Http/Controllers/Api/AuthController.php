@@ -51,7 +51,7 @@ class AuthController extends Controller
 		} else {
 			throw ValidationException::withMessages([
 				'user' => [[
-					'en' => 'Incorrect cretendials.',
+					'en' => 'Incorrect credentials.',
 					'ka' => 'არასწორი დალოგინების მონაცემები.', ]],
 			]);
 		}
