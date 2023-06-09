@@ -24,8 +24,10 @@ class PasswordResetServiceProvider extends ServiceProvider
 		ResetPassword::toMailUsing(function (User $user, $token) {
 			$spaDomain = config('app.spa_domain');
 
-			$locale = request()->query('locale', 'en');
+			$locale = request()->query('locale');
+
 			app()->setLocale($locale);
+
 
 			$url = $spaDomain . '/' . $locale . '/?token=' . $token . '&email=' . $user->getEmailForPasswordReset();
 			$userName = $user->name;
