@@ -31,21 +31,21 @@
         <img id="image" style="display: block; margin-left: auto; margin-right: auto;"
             src="{{ asset('images/confirm-email.png') }}" alt='confirm email' />
         <p style="text-align: center; color:#DDCCAA;">MOVIE QUOTES</p>
-        <p style="margin-top: 80px; margin-bottom: 24px; font-family: sans-serif">Hola {{ $name }}!</p>
-        <p style="margin-bottom: 50px; margin-top: 40px; font-family: sans-serif">Please click the
-            button below to reset your password:</p>
+        <p style="margin-top: 80px; margin-bottom: 24px; font-family: sans-serif">{{ __('reset-password.hola') }}
+            {{ $name }}!</p>
+        <p style="margin-bottom: 50px; margin-top: 40px; font-family: sans-serif">{{ __('reset-password.click_link') }}
+        </p>
         <a style="background-color: #E31221; padding: 7px 13px; border-radius: 4px; color:white; text-decoration:none; font-family: sans-serif"
-            href={{ $url }}>Reset Password</a>
+            href={{ $url }}>{{ __('reset-password.reset_password') }}</a>
         <p style="margin-top: 40px; margin-top: 40px; display: block; margin-bottom: 24px; font-family: sans-serif">If
-            clicking doesn't work, you can try copying and pasting it to your browser:</p>
+            {{ __('reset-password.paste') }}</p>
         <div style="word-break: break-all">
             <p style="color: #DDCCAA; margin-bottom: 40px; font-family: sans-serif">
                 {{ $url }}
             </p>
         </div>
-        <p style='margin-bottom: 24px; font-family: sans-serif;'>If you have any problems, please contact us:
-            support@moviequotes.ge</p>
-        <p style="font-family: sans-serif">MovieQuotes Crew</p>
+        <p style='margin-bottom: 24px; font-family: sans-serif;'>{{ __('reset-password.contact') }}</p>
+        <p style="font-family: sans-serif">{{ __('reset-password.crew') }}</p>
     </div>
 </body>
 
