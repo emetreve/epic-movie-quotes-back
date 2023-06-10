@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ConfirmEmailController;
 use App\Http\Controllers\Api\GoogleController;
 use App\Http\Controllers\Api\PasswordController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\MovieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,4 +46,6 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/check', [AuthController::class, 'checkIfLoggedIn'])->name('check');
 	Route::get('/user', [AuthController::class, 'getUser'])->name('user');
 	Route::post('/edit-user-data', [ProfileController::class, 'update'])->name('updateUser');
+
+	Route::get('/movies', [MovieController::class, 'index'])->name('movies');
 });
