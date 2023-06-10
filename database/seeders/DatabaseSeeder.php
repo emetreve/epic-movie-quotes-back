@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Movie;
+use App\Models\Quote;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,10 +23,9 @@ class DatabaseSeeder extends Seeder
 		//     'email' => 'test@example.com',
 		// ]);
 
-		User::factory(3)->create();
-
-		Movie::factory(3)->create([
-			'user_id'=> User::factory(),
+		Quote::factory(2)->create([
+			'user_id' => User::factory(),
+			'movie_id'=> Movie::factory(),
 		]);
 	}
 }

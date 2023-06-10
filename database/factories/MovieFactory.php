@@ -20,18 +20,17 @@ class MovieFactory extends Factory
 	{
 		return [
 			'name' => [
-				'en' => $this->faker->sentence,
-				'ka' => KaFactory::create('ka_GE')->realText(15),
+				'en' => trim($this->faker->sentence, '.'),
+				'ka' => trim(KaFactory::create('ka_GE')->realText(30), '.'),
 			],
-			'poster' => $this->faker->imageUrl(),
-			'year'   => (string)$this->faker->year(),
+			'year'        => (string)$this->faker->year(),
 			'description' => [
-				'en' => $this->faker->paragraph(),
-				'ka' => KaFactory::create('ka_GE')->realText(40),
+				'en' => trim($this->faker->paragraph(), '.'),
+				'ka' => trim(KaFactory::create('ka_GE')->realText(70), '.'),
 			],
 			'director' => [
 				'en' => $this->faker->name() . ' ' . $this->faker->lastName(),
-				'ka' => KaFactory::create('ka_GE')->realText(15),
+				'ka' => trim(KaFactory::create('ka_GE')->realText(18), '.'),
 			],
 			'revenue' => (string)$this->faker->numberBetween(200000, 10000000),
 			'user_id' => User::factory(),
