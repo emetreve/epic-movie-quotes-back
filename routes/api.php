@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\PasswordController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MovieController;
 use App\Http\Controllers\Api\QuoteController;
+use App\Http\Controllers\Api\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +51,6 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 
 	Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes');
 	Route::get('/movies', [MovieController::class, 'index'])->name('movies');
+
+	Route::post('/create-comment', [CommentController::class, 'store'])->name('createComment');
 });
