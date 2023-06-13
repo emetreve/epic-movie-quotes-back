@@ -10,7 +10,16 @@ class QuoteController extends Controller
 {
 	public function index(Request $request)
 	{
-		$quotes = Quote::with('movie', 'user', 'comments.user')->orderBy('created_at', 'desc')->get();
+		$search = $request->query('search');
+		if ($search) {
+			$quotes = Quote::with('movie', 'user', 'comments.user')
+			->where('body', 'like', '%' . $search . '%')
+			->orderBy('created_at', 'desc')
+			->get();
+		} else {
+			$quotes = Quote::with('movie', 'user', 'comments.user')->orderBy('created_at', 'desc')->get();
+		}
+
 		return response()->json($quotes);
 	}
 }
