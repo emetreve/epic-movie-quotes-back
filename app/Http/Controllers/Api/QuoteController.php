@@ -14,7 +14,7 @@ class QuoteController extends Controller
 		$search = $request->query('search');
 
 		if ($search) {
-			if (Str::startsWith($search, '#')) {
+			if (Str::startsWith($search, '*')) {
 				$customQuery = Str::substr($search, 1);
 
 				$quotes = Quote::with('movie', 'user', 'comments.user')
