@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreQuoteRequest;
 use Illuminate\Http\Request;
 use App\Models\Quote;
 use Illuminate\Support\Str;
@@ -34,5 +35,24 @@ class QuoteController extends Controller
 		}
 
 		return response()->json($quotes);
+	}
+
+	public function store(StoreQuoteRequest $request)
+	{
+		$quote = new Quote();
+
+		$quote->image = '/storage/' . $request->file('image')->store('quotes');
+
+		$quote->body = [
+			'en' => $request->input('bodyEn'),
+			'ka' => $request->input('bodyGe'),
+		];
+
+		$quote->movie_id = $request->input('movie_id');
+		$quote->user_id = $request->input('user_id');
+
+		$quote->save();
+
+		return response()->json(['message' => 'Quote created successfully']);
 	}
 }
