@@ -21,16 +21,13 @@ class QuoteController extends Controller
 		if ($search) {
 			if (Str::startsWith($search, '*')) {
 				$quotes = $quoteWithData->searchByBody($customQuery, $locale)
-					->orderBy('created_at', 'desc')
-					->get();
+					->orderBy('created_at', 'desc')->get();
 			} elseif (Str::startsWith($search, '@')) {
 				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale)
-					->orderBy('created_at', 'desc')
-					->get();
+					->orderBy('created_at', 'desc')->get();
 			} else {
 				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale)
-					->orderBy('created_at', 'desc')
-					->get();
+					->orderBy('created_at', 'desc')->get();
 			}
 		} else {
 			$quotes = $quoteWithData->orderBy('created_at', 'desc')->get();
