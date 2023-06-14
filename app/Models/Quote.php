@@ -28,4 +28,26 @@ class Quote extends Model
 	{
 		return $this->hasMany(Comment::class);
 	}
+
+	public function scopeSearchByBody($query, $search, $locale)
+	{
+		return $query->where('body->' . $locale, 'like', '%' . $search . '%');
+	}
+
+	public function scopeSearchByMovieName($query, $search, $locale)
+	{
+		return $query->whereHas('movie', function ($query) use ($search, $locale) {
+			$query->where('name->' . $locale, 'like', '%' . $search . '%');
+		});
+	}
+
+	public function scopeSearchByBodyAndMovieName($query, $search, $locale)
+	{
+		return $query->where(function ($query) use ($search, $locale) {
+			$query->searchByBody($search, $locale)
+				->orWhereHas('movie', function ($query) use ($search, $locale) {
+					$query->where('name->' . $locale, 'like', '%' . $search . '%');
+				});
+		});
+	}
 }

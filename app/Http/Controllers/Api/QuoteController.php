@@ -14,34 +14,26 @@ class QuoteController extends Controller
 		$search = $request->query('search');
 		$locale = $request->query('locale');
 
+		$quoteWithData = Quote::with('movie', 'user', 'comments.user');
+
+		$customQuery = Str::substr($search, 1);
+
 		if ($search) {
 			if (Str::startsWith($search, '*')) {
-				$customQuery = Str::substr($search, 1);
-
-				$quotes = Quote::with('movie', 'user', 'comments.user')
-				->where('body->' . $locale, 'like', '%' . $customQuery . '%')
-				->orderBy('created_at', 'desc')
-				->get();
+				$quotes = $quoteWithData->searchByBody($customQuery, $locale)
+					->orderBy('created_at', 'desc')
+					->get();
 			} elseif (Str::startsWith($search, '@')) {
-				$customQuery = Str::substr($search, 1);
-
-				$quotes = Quote::with('movie', 'user', 'comments.user')
-				->whereHas('movie', function ($query) use ($customQuery, $locale) {
-					$query->where('name->' . $locale, 'like', '%' . $customQuery . '%');
-				})->orderBy('created_at', 'desc')->get();
+				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale)
+					->orderBy('created_at', 'desc')
+					->get();
 			} else {
-				$quotes = Quote::with('movie', 'user', 'comments.user')
-				->where(function ($query) use ($search, $locale) {
-					$query->where('body->' . $locale, 'like', '%' . $search . '%')
-					->orWhereHas('movie', function ($query) use ($search, $locale) {
-						$query->where('name->' . $locale, 'like', '%' . $search . '%');
-					});
-				})
-			   ->orderBy('created_at', 'desc')
-			   ->get();
+				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale)
+					->orderBy('created_at', 'desc')
+					->get();
 			}
 		} else {
-			$quotes = Quote::with('movie', 'user', 'comments.user')->orderBy('created_at', 'desc')->get();
+			$quotes = $quoteWithData->orderBy('created_at', 'desc')->get();
 		}
 
 		return response()->json($quotes);
