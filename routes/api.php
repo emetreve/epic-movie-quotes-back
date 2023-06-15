@@ -54,4 +54,5 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 
 	Route::post('/create-comment', [CommentController::class, 'store'])->name('createComment');
 	Route::post('/create-quote', [QuoteController::class, 'store'])->name('createQuote');
+	Route::get('/like', [QuoteController::class, 'like'])->name('like');
 });
