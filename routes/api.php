@@ -53,4 +53,5 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/movies', [MovieController::class, 'index'])->name('movies');
 
 	Route::post('/create-comment', [CommentController::class, 'store'])->name('createComment');
+	Route::post('/create-quote', [QuoteController::class, 'store'])->name('createQuote');
 });
