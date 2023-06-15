@@ -29,6 +29,11 @@ class Quote extends Model
 		return $this->hasMany(Comment::class);
 	}
 
+	public function likes()
+	{
+		return $this->hasMany(Like::class)->select(['id', 'quote_id', 'user_id', 'like', 'created_at']);
+	}
+
 	public function scopeSearchByBody($query, $search, $locale)
 	{
 		return $query->where('body->' . $locale, 'like', '%' . $search . '%');

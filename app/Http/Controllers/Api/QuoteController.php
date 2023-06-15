@@ -15,7 +15,7 @@ class QuoteController extends Controller
 		$search = $request->query('search');
 		$locale = $request->query('locale');
 
-		$quoteWithData = Quote::with('movie', 'user', 'comments.user');
+		$quoteWithData = Quote::with('movie', 'user', 'likes', 'comments.user');
 
 		$customQuery = Str::substr($search, 1);
 
