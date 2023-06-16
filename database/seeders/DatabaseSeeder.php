@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\User;
 use App\Models\Movie;
 use App\Models\Quote;
@@ -27,9 +28,14 @@ class DatabaseSeeder extends Seeder
 			'quote_id' => $quotes[0]->id,
 		]);
 
-        Comment::factory(3)->create([
+		Comment::factory(3)->create([
 			'user_id'  => User::factory(),
 			'quote_id' => $quotes[1]->id,
+		]);
+
+		Like::factory(5)->create([
+			'quote_id' => $quotes[0]->id,
+			'user_id'  => User::factory(),
 		]);
 	}
 }
