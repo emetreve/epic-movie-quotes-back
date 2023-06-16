@@ -13,7 +13,7 @@ return new class extends Migration {
 		Schema::create('movies', function (Blueprint $table) {
 			$table->id();
 			$table->timestamps();
-			$table->json('name');
+			$table->json('name')->unique();
 			$table->unsignedBigInteger('user_id')->constrained()->cascadeOnDelete();
 			$table->string('poster')->nullable();
 			$table->text('year');

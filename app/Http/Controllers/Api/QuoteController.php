@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Quote;
 use App\Models\Like;
 use Illuminate\Support\Str;
+use App\Events\LikeUpdated;
 
 class QuoteController extends Controller
 {
@@ -62,11 +63,17 @@ class QuoteController extends Controller
 		$like = Like::firstOrNew(request()->only('like', 'user_id', 'quote_id'));
 
 		if ($like->exists) {
+			event(new LikeUpdated($like));
+
 			$like->delete();
+
 			return response(['message' => 'like was removed']);
 		}
 
 		$like->save();
+
+		event(new LikeUpdated($like));
+
 		return response(['message' => 'like was added']);
 	}
 }
