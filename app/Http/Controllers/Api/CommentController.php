@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Models\Comment;
 use App\Events\CommentUpdated;
-use Illuminate\Http\Request;
-use App\Models\Quote;
 use App\Events\NotificationUpdated;
 use App\Models\Notification;
 
@@ -17,28 +15,20 @@ class CommentController extends Controller
 	{
 		$comment = Comment::create($request->validated());
 
-		return response()->json($comment, 201);
-	}
+		$user = Comment::find($request['quote_id'])->user;
 
-	public function broadcastComment(Request $request)
-	{
 		event(new CommentUpdated(true));
 
-		$user = Quote::find($request['quote_id'])->user;
+		$notification = Notification::firstOrNew([
+			'end_user_id'    => $user->id,
+			'user_id'        => $request['user_id'],
+			'quote_id'       => $request['quote_id'],
+			'comment_id'     => $comment->id,
+		]);
+		$notification->save();
 
-		$comment = Comment::where('user_id', $request->input('user_id'))
-		->where('quote_id', $request->input('quote_id'))
-		->first();
+		event(new NotificationUpdated($notification));
 
-		if ($comment) {
-			$notification = Notification::firstOrNew([
-				'end_user_id'    => $user->id,
-				'user_id'        => $request['user_id'],
-				'quote_id'       => $request['quote_id'],
-				'comment_id'     => $comment->id,
-			]);
-			$notification->save();
-			event(new NotificationUpdated($notification));
-		}
+		return response()->json($comment, 201);
 	}
 }

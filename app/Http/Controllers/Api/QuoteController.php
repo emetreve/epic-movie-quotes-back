@@ -65,24 +65,15 @@ class QuoteController extends Controller
 		$like = Like::firstOrNew(request()->only('like', 'user_id', 'quote_id'));
 		if ($like->exists) {
 			$like->delete();
+			event(new LikeUpdated(true));
 			return response(['message' => 'like was removed']);
 		}
 		$like->save();
 
-		return response(['message' => 'like was added']);
-	}
-
-	public function broadcastLike(Request $request)
-	{
 		event(new LikeUpdated(true));
 
-		$user = Quote::find($request['quote_id'])->user;
-
-		$like = Like::where('user_id', $request->input('user_id'))
-		->where('quote_id', $request->input('quote_id'))
-		->first();
-
 		if ($like) {
+			$user = Quote::find($request['quote_id'])->user;
 			$notification = Notification::firstOrNew([
 				'end_user_id' => $user->id,
 				'user_id'     => $request['user_id'],
@@ -92,5 +83,7 @@ class QuoteController extends Controller
 			$notification->save();
 			event(new NotificationUpdated($notification));
 		}
+
+		return response(['message' => 'like was added']);
 	}
 }

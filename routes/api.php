@@ -56,7 +56,5 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::post('/create-comment', [CommentController::class, 'store'])->name('create.comment');
 	Route::post('/create-quote', [QuoteController::class, 'store'])->name('create.quote');
 	Route::get('/like', [QuoteController::class, 'like'])->name('like');
-	Route::get('/broadcastLike', [QuoteController::class, 'broadcastLike'])->name('broadcast.like');
-	Route::get('/broadcastComment', [CommentController::class, 'broadcastComment'])->name('broadcast.comment');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 });
