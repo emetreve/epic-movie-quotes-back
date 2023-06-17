@@ -76,18 +76,18 @@ class QuoteController extends Controller
 	{
 		event(new LikeUpdated(true));
 
+		$user = Quote::find($request['quote_id'])->user;
+
 		$like = Like::where('user_id', $request->input('user_id'))
 		->where('quote_id', $request->input('quote_id'))
 		->first();
 
-		$user = Quote::find($request['quote_id'])->user;
-
 		if ($like) {
 			$notification = Notification::firstOrNew([
-				'end_user_id'         => $user->id,
-				'user_id'             => $request['user_id'],
-				'quote_id'            => $request['quote_id'],
-				'like_id'             => $like->id,
+				'end_user_id' => $user->id,
+				'user_id'     => $request['user_id'],
+				'quote_id'    => $request['quote_id'],
+				'like_id'     => $like->id,
 			]);
 			$notification->save();
 			event(new NotificationUpdated($notification));
