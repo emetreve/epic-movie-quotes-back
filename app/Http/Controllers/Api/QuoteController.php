@@ -9,6 +9,8 @@ use App\Models\Quote;
 use App\Models\Like;
 use Illuminate\Support\Str;
 use App\Events\LikeUpdated;
+use App\Events\NotificationUpdated;
+use App\Models\Notification;
 
 class QuoteController extends Controller
 {
@@ -58,22 +60,37 @@ class QuoteController extends Controller
 		return response()->json(['message' => 'Quote created successfully']);
 	}
 
-	public function like()
+	public function like(Request $request)
 	{
 		$like = Like::firstOrNew(request()->only('like', 'user_id', 'quote_id'));
-
 		if ($like->exists) {
-			event(new LikeUpdated($like));
-
 			$like->delete();
-
 			return response(['message' => 'like was removed']);
 		}
-
 		$like->save();
 
-		event(new LikeUpdated($like));
-
 		return response(['message' => 'like was added']);
+	}
+
+	public function broadcastLike(Request $request)
+	{
+		event(new LikeUpdated(true));
+
+		$like = Like::where('user_id', $request->input('user_id'))
+		->where('quote_id', $request->input('quote_id'))
+		->first();
+
+		$user = Quote::find($request['quote_id'])->user;
+
+		if ($like) {
+			$notification = Notification::firstOrNew([
+				'end_user_id'         => $user->id,
+				'user_id'             => $request['user_id'],
+				'quote_id'            => $request['quote_id'],
+				'like_id'             => $like->id,
+			]);
+			$notification->save();
+			event(new NotificationUpdated($notification));
+		}
 	}
 }

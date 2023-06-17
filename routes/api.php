@@ -47,12 +47,14 @@ Route::post('/reset-password', [PasswordController::class, 'reset'])->name('pass
 Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/check', [AuthController::class, 'checkIfLoggedIn'])->name('check');
 	Route::get('/user', [AuthController::class, 'getUser'])->name('user');
-	Route::post('/edit-user-data', [ProfileController::class, 'update'])->name('updateUser');
+	Route::post('/edit-user-data', [ProfileController::class, 'update'])->name('update.user');
 
 	Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes');
 	Route::get('/movies', [MovieController::class, 'index'])->name('movies');
 
-	Route::post('/create-comment', [CommentController::class, 'store'])->name('createComment');
-	Route::post('/create-quote', [QuoteController::class, 'store'])->name('createQuote');
+	Route::post('/create-comment', [CommentController::class, 'store'])->name('create.comment');
+	Route::post('/create-quote', [QuoteController::class, 'store'])->name('create.quote');
 	Route::get('/like', [QuoteController::class, 'like'])->name('like');
+	Route::get('/broadcastLike', [QuoteController::class, 'broadcastLike'])->name('broadcast.like');
+	Route::get('/broadcastComment', [CommentController::class, 'broadcastComment'])->name('broadcast.comment');
 });

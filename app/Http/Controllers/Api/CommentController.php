@@ -12,8 +12,12 @@ class CommentController extends Controller
 	public function store(StoreCommentRequest $request)
 	{
 		$comment = Comment::create($request->validated());
-		event(new CommentUpdated($comment));
 
 		return response()->json($comment, 201);
+	}
+
+	public function broadcastComment()
+	{
+		event(new CommentUpdated(true));
 	}
 }
