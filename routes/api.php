@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MovieController;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +58,5 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/like', [QuoteController::class, 'like'])->name('like');
 	Route::get('/broadcastLike', [QuoteController::class, 'broadcastLike'])->name('broadcast.like');
 	Route::get('/broadcastComment', [CommentController::class, 'broadcastComment'])->name('broadcast.comment');
+	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 });
