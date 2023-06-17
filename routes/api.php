@@ -11,7 +11,6 @@ use App\Http\Controllers\Api\MovieController;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\NotificationController;
-use Illuminate\Support\Facades\Broadcast;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,8 +44,6 @@ Route::get('/email/verify/{id}/{hash}', [ConfirmEmailController::class, 'verifyE
 Route::post('/forgot-password', [PasswordController::class, 'requestChange'])->name('password.email');
 
 Route::post('/reset-password', [PasswordController::class, 'reset'])->name('password.update');
-
-BroadCast::routes(['middleware' => ['auth:sanctum']]);
 
 Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/check', [AuthController::class, 'checkIfLoggedIn'])->name('check');
