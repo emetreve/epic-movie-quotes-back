@@ -57,4 +57,5 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::post('/create-quote', [QuoteController::class, 'store'])->name('create.quote');
 	Route::get('/like', [QuoteController::class, 'like'])->name('like');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+	Route::get('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark.all');
 });
