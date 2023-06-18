@@ -19,6 +19,16 @@ class NotificationController extends Controller
 
 		Notification::where('end_user_id', $endUserId)->update(['read' => true]);
 
-		return response(['message' => 'notifications of this user were successfully marked as read']);
+		return response(['message' => 'Notifications were successfully marked as read.']);
+	}
+
+	public function markOneRead()
+	{
+		$id = request()->input('notification_id');
+
+		$notification = Notification::find($id);
+		$notification->update(['read' => true]);
+
+		return response(['message' => 'Notification was successfully marked as read.']);
 	}
 }
