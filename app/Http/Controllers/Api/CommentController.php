@@ -32,6 +32,6 @@ class CommentController extends Controller
 			event(new NotificationUpdated($notification));
 		}
 
-		return response(['message' => 'comment was added.']);
+		return response()->json($comment, 201);
 	}
 }
