@@ -8,6 +8,7 @@ use App\Models\Comment;
 use App\Events\CommentUpdated;
 use App\Events\NotificationUpdated;
 use App\Models\Notification;
+use App\Models\Quote;
 
 class CommentController extends Controller
 {
@@ -15,7 +16,7 @@ class CommentController extends Controller
 	{
 		$comment = Comment::create($request->validated());
 
-		$user = Comment::find($request['quote_id'])->user;
+		$user = Quote::find($request['quote_id'])->user;
 
 		event(new CommentUpdated(true));
 
@@ -29,6 +30,6 @@ class CommentController extends Controller
 
 		event(new NotificationUpdated($notification));
 
-		return response()->json($comment, 201);
+		return response()->json($notification, 201);
 	}
 }
