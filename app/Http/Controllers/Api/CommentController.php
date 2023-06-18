@@ -20,16 +20,18 @@ class CommentController extends Controller
 
 		event(new CommentUpdated(true));
 
-		$notification = Notification::firstOrNew([
-			'end_user_id'    => $user->id,
-			'user_id'        => $request['user_id'],
-			'quote_id'       => $request['quote_id'],
-			'comment_id'     => $comment->id,
-		]);
-		$notification->save();
+		if ($user->id !== (int) $request['user_id']) {
+			$notification = Notification::firstOrNew([
+				'end_user_id'    => $user->id,
+				'user_id'        => $request['user_id'],
+				'quote_id'       => $request['quote_id'],
+				'comment_id'     => $comment->id,
+			]);
+			$notification->save();
 
-		event(new NotificationUpdated($notification));
+			event(new NotificationUpdated($notification));
+		}
 
-		return response()->json($notification, 201);
+		return response(['message' => 'comment was added.']);
 	}
 }
