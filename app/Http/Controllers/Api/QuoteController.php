@@ -23,22 +23,34 @@ class QuoteController extends Controller
 
 		$customQuery = Str::substr($search, 1);
 
+		$page = $request->query('page', 1);
+
 		if ($search) {
 			if (Str::startsWith($search, '*')) {
 				$quotes = $quoteWithData->searchByBody($customQuery, $locale)
-					->orderBy('created_at', 'desc')->get();
+					->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
 			} elseif (Str::startsWith($search, '@')) {
 				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale)
-					->orderBy('created_at', 'desc')->get();
+					->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
 			} else {
 				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale)
-					->orderBy('created_at', 'desc')->get();
+					->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
 			}
 		} else {
-			$quotes = $quoteWithData->orderBy('created_at', 'desc')->get();
+			$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
 		}
 
-		return response()->json($quotes);
+		$paginationData = [
+			'current_page' => $quotes->currentPage(),
+			'last_page'    => $quotes->lastPage(),
+			'per_page'     => $quotes->perPage(),
+			'total'        => $quotes->total(),
+		];
+
+		return response()->json([
+			'quotes'     => $quotes->items(),
+			'pagination' => $paginationData,
+		]);
 	}
 
 	public function store(StoreQuoteRequest $request)
