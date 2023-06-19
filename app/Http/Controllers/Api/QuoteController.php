@@ -28,16 +28,18 @@ class QuoteController extends Controller
 		if ($search) {
 			if (Str::startsWith($search, '*')) {
 				$quotes = $quoteWithData->searchByBody($customQuery, $locale)
-					->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
 			} elseif (Str::startsWith($search, '@')) {
 				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale)
-					->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+			} elseif ($search === '') {
+				$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
 			} else {
 				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale)
-					->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
 			}
 		} else {
-			$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(10, ['*'], 'page', $page);
+			$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
 		}
 
 		$paginationData = [
@@ -75,10 +77,12 @@ class QuoteController extends Controller
 	public function like(Request $request)
 	{
 		$like = Like::firstOrNew(request()->only('like', 'user_id', 'quote_id'));
+
 		if ($like->exists) {
 			$like->delete();
 			event(new LikeUpdated(true));
-			return response(['message' => 'like was removed']);
+			$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
+			return response()->json($quote, 201);
 		}
 		$like->save();
 
@@ -97,6 +101,7 @@ class QuoteController extends Controller
 			event(new NotificationUpdated($notification));
 		}
 
-		return response(['message' => 'like was added']);
+		$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
+		return response()->json($quote, 201);
 	}
 }

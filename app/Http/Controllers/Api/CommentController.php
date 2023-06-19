@@ -32,6 +32,8 @@ class CommentController extends Controller
 			event(new NotificationUpdated($notification));
 		}
 
-		return response()->json($comment, 201);
+		$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
+
+		return response()->json($quote, 201);
 	}
 }
