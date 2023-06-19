@@ -77,16 +77,17 @@ class QuoteController extends Controller
 	public function like(Request $request)
 	{
 		$like = Like::firstOrNew(request()->only('like', 'user_id', 'quote_id'));
+		$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
 
 		if ($like->exists) {
 			$like->delete();
-			event(new LikeUpdated(true));
 			$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
+			event(new LikeUpdated($quote));
 			return response()->json($quote, 201);
 		}
 		$like->save();
 
-		event(new LikeUpdated(true));
+		event(new LikeUpdated($quote));
 
 		$user = Quote::find($request['quote_id'])->user;
 
@@ -101,7 +102,6 @@ class QuoteController extends Controller
 			event(new NotificationUpdated($notification));
 		}
 
-		$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
 		return response()->json($quote, 201);
 	}
 }

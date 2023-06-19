@@ -18,7 +18,9 @@ class CommentController extends Controller
 
 		$user = Quote::find($request['quote_id'])->user;
 
-		event(new CommentUpdated(true));
+		$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
+
+		event(new CommentUpdated($quote));
 
 		if ($user->id !== (int) $request['user_id']) {
 			$notification = Notification::firstOrNew([
@@ -31,8 +33,6 @@ class CommentController extends Controller
 
 			event(new NotificationUpdated($notification));
 		}
-
-		$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($request['quote_id']);
 
 		return response()->json($quote, 201);
 	}
