@@ -18,24 +18,23 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run(): void
 	{
-		$quotes = Quote::factory(2)->create([
-			'user_id'  => User::factory(),
-			'movie_id' => Movie::factory(),
+		$user = User::factory()->create();
+
+		$movie = Movie::factory()->create();
+
+		$quotes = Quote::factory(5)->create([
+			'user_id'  => $user->id,
+			'movie_id' => $movie->id,
 		]);
 
-		Comment::factory(2)->create([
+		Comment::factory(1)->create([
 			'user_id'  => User::factory(),
 			'quote_id' => $quotes[0]->id,
 		]);
 
-		Comment::factory(3)->create([
-			'user_id'  => User::factory(),
-			'quote_id' => $quotes[1]->id,
-		]);
-
-		Like::factory(5)->create([
+		Like::factory(1)->create([
 			'quote_id' => $quotes[0]->id,
-			'user_id'  => User::factory(),
+			'user_id'  => $user->id,
 		]);
 	}
 }
