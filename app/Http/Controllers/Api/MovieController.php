@@ -10,7 +10,14 @@ class MovieController extends Controller
 {
 	public function index(Request $request)
 	{
-		$movies = Movie::with('user')->orderBy('created_at', 'desc')->get();
+		$user = auth()->user();
+
+		$movies = Movie::where('user_id', $user->id)->withCount('quotes')
+			->orderBy('created_at', 'desc')
+			->get();
+
+		$movies = $movies->makeHidden(['description', 'director', 'revenue']);
+
 		return response()->json($movies);
 	}
 }
