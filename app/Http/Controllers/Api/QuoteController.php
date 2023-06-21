@@ -71,7 +71,9 @@ class QuoteController extends Controller
 
 		$quote->save();
 
-		return response()->json(['message' => 'Quote created successfully']);
+		$quoteWithData = Quote::with('movie', 'user', 'likes', 'comments.user')->find($quote->id);
+
+		return response()->json($quoteWithData, 201);
 	}
 
 	public function like(Request $request)
