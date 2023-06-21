@@ -32,8 +32,8 @@ class MovieFactory extends Factory
 				'en' => $this->faker->name() . ' ' . $this->faker->lastName(),
 				'ka' => trim(KaFactory::create('ka_GE')->realText(18), '.'),
 			],
-			'revenue' => (string)$this->faker->numberBetween(200000, 10000000),
-			'user_id' => User::factory(),
+			'revenue'  => (string)$this->faker->numberBetween(200000, 10000000),
+			'user_id'  => User::factory(),
 		];
 	}
 }

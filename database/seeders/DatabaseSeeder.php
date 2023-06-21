@@ -9,6 +9,7 @@ use App\Models\Like;
 use App\Models\User;
 use App\Models\Movie;
 use App\Models\Quote;
+use App\Models\Genre;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,6 +22,7 @@ class DatabaseSeeder extends Seeder
 		$user = User::factory()->create();
 
 		$movie = Movie::factory()->create();
+		$movie->genres()->attach(Genre::inRandomOrder()->take(2)->pluck('id')->toArray());
 
 		$quotes = Quote::factory(5)->create([
 			'user_id'  => $user->id,
