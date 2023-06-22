@@ -63,4 +63,5 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark.all');
 	Route::get('/mark-one-read', [NotificationController::class, 'markOneRead'])->name('notifications.mark.one');
 	Route::post('/movie', [MovieController::class, 'store'])->name('create.movie');
+    Route::get('/movie/{movie}', [MovieController::class, 'get'])->name('get.movie');
 });
