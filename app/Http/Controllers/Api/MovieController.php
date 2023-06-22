@@ -20,9 +20,14 @@ class MovieController extends Controller
 	{
 		$user = auth()->user();
 
-		$movies = Movie::where('user_id', $user->id)->withCount('quotes')
-			->orderBy('created_at', 'desc')
-			->get();
+		$query = Movie::where('user_id', $user->id)->withCount('quotes')
+			->orderBy('created_at', 'desc');
+
+		if ($request->has('search')) {
+			$query->searchByName($request->query('search'), $request->query('locale'));
+		}
+
+		$movies = $query->get();
 
 		$movies = $movies->makeHidden(['description', 'director', 'revenue']);
 
