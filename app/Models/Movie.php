@@ -26,4 +26,9 @@ class Movie extends Model
 	{
 		return $this->hasMany(Quote::class);
 	}
+
+	public function genres()
+	{
+		return $this->belongsToMany(Genre::class, 'genre_movie');
+	}
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\MovieController;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\GenreController;
 use App\Http\Controllers\Api\NotificationController;
 
 /*
@@ -53,6 +54,7 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes');
 	Route::get('/movies', [MovieController::class, 'index'])->name('movies');
 	Route::get('/user-movies', [MovieController::class, 'userMovies'])->name('user.movies');
+	Route::get('/genres', [GenreController::class, 'index'])->name('genres');
 
 	Route::post('/create-comment', [CommentController::class, 'store'])->name('create.comment');
 	Route::post('/create-quote', [QuoteController::class, 'store'])->name('create.quote');
@@ -60,4 +62,5 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 	Route::get('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark.all');
 	Route::get('/mark-one-read', [NotificationController::class, 'markOneRead'])->name('notifications.mark.one');
+	Route::post('/movie', [MovieController::class, 'store'])->name('create.movie');
 });
