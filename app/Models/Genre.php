@@ -9,6 +9,10 @@ class Genre extends Model
 {
 	use HasFactory;
 
+	protected $casts = [
+		'name' => 'array',
+	];
+
 	public function movies()
 	{
 		return $this->belongsToMany(Movie::class, 'genre_movie');

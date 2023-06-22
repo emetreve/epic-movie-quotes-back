@@ -7,7 +7,6 @@ use App\Http\Requests\StoreMovieRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Movie;
-use App\Models\Genre;
 
 class MovieController extends Controller
 {
@@ -28,19 +27,6 @@ class MovieController extends Controller
 		$movies = $movies->makeHidden(['description', 'director', 'revenue']);
 
 		return response()->json($movies);
-	}
-
-	public function getGenres()
-	{
-		$genres = Genre::all();
-
-		$genres = $genres->map(function ($genre) {
-			$genre->name = json_decode($genre->name);
-			return $genre;
-		});
-		$genres = $genres->makeHidden(['created_at', 'updated_at']);
-
-		return response()->json($genres);
 	}
 
 	public function store(StoreMovieRequest $request)
@@ -67,7 +53,7 @@ class MovieController extends Controller
 		];
 
 		$movie->year = $request->input('year');
-        $movie->revenue = $request->input('revenue');
+		$movie->revenue = $request->input('revenue');
 
 		$movie->save();
 
