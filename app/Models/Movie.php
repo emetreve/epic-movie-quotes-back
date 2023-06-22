@@ -32,8 +32,10 @@ class Movie extends Model
 		return $this->belongsToMany(Genre::class, 'genre_movie');
 	}
 
-    public function scopeSearchByName($query, $search, $locale)
+	public function scopeSearchByName($query, $search, $locale)
 	{
-		return $query->where('name->' . $locale, 'like', '%' . $search . '%');
+		return $query->where(function ($query) use ($search, $locale) {
+			$query->where('name->' . $locale, 'like', '%' . $search . '%');
+		});
 	}
 }
