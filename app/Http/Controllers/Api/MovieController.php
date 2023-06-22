@@ -21,7 +21,7 @@ class MovieController extends Controller
 		$user = auth()->user();
 
 		$movie = Movie::where('id', $id)->where('user_id', $user->id)
-			->with('genres')->withCount('quotes')->first();
+			->with(['genres', 'quotes'])->withCount('quotes')->first();
 
 		$movie->makeHidden(['updated_at', 'created_at']);
 
