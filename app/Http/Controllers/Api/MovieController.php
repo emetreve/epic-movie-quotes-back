@@ -16,6 +16,23 @@ class MovieController extends Controller
 		return response()->json($movies);
 	}
 
+	public function get($id)
+	{
+		$user = auth()->user();
+
+		$movie = Movie::where('id', $id)->where('user_id', $user->id)->with(['genres', 'quotes' => function ($query) {
+			$query->with('likes')->withCount(['likes', 'comments']);
+		}])->withCount('quotes')->first();
+
+		$movie->makeHidden(['updated_at', 'created_at']);
+
+		if ($movie) {
+			return response()->json($movie, 200);
+		} else {
+			return response()->json(['error' => 'User cannot access this movie or movie with such id does not exist.'], 401);
+		}
+	}
+
 	public function userMovies(Request $request)
 	{
 		$user = auth()->user();
