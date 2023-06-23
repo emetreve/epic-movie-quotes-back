@@ -21,7 +21,7 @@ class MovieController extends Controller
 		$user = auth()->user();
 
 		$movie = Movie::where('id', $id)->where('user_id', $user->id)->with(['genres', 'quotes' => function ($query) {
-			$query->with('likes')->withCount(['likes', 'comments']);
+			$query->with('likes')->withCount(['likes', 'comments'])->orderBy('updated_at', 'desc');
 		}])->withCount('quotes')->first();
 
 		$movie->makeHidden(['updated_at', 'created_at']);
