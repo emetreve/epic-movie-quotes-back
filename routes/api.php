@@ -51,17 +51,23 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 	Route::get('/user', [AuthController::class, 'getUser'])->name('user');
 	Route::post('/edit-user-data', [ProfileController::class, 'update'])->name('update.user');
 
-	Route::get('/quotes', [QuoteController::class, 'index'])->name('quotes');
-	Route::get('/movies', [MovieController::class, 'index'])->name('movies');
-	Route::get('/user-movies', [MovieController::class, 'userMovies'])->name('user.movies');
+	Route::get('/like', [QuoteController::class, 'like'])->name('like');
 	Route::get('/genres', [GenreController::class, 'index'])->name('genres');
 
 	Route::post('/create-comment', [CommentController::class, 'store'])->name('create.comment');
-	Route::post('/create-quote', [QuoteController::class, 'store'])->name('create.quote');
-	Route::get('/like', [QuoteController::class, 'like'])->name('like');
 	Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 	Route::get('/mark-all-read', [NotificationController::class, 'markAllRead'])->name('notifications.mark.all');
 	Route::get('/mark-one-read', [NotificationController::class, 'markOneRead'])->name('notifications.mark.one');
-	Route::post('/movie', [MovieController::class, 'store'])->name('create.movie');
-    Route::get('/movie/{movie}', [MovieController::class, 'get'])->name('get.movie');
+
+	Route::prefix('quotes')->group(function () {
+		Route::get('/', [QuoteController::class, 'index'])->name('quotes');
+		Route::post('/', [QuoteController::class, 'store'])->name('create.quote');
+	});
+
+	Route::prefix('movies')->group(function () {
+		Route::get('/', [MovieController::class, 'index'])->name('movies.index');
+		Route::get('/user', [MovieController::class, 'userMovies'])->name('movies.user');
+		Route::post('/', [MovieController::class, 'store'])->name('movies.store');
+		Route::get('/{movie}', [MovieController::class, 'get'])->name('get.movie');
+	});
 });
