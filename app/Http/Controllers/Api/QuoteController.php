@@ -106,4 +106,16 @@ class QuoteController extends Controller
 
 		return response()->json($quote, 201);
 	}
+
+	public function destroy($id)
+	{
+		$quote = Quote::find($id);
+
+		if ($quote) {
+			$quote->delete();
+			return response()->json(['message' => 'Quote deleted successfully'], 200);
+		} else {
+			return response()->json(['error' => 'Quote not found'], 404);
+		}
+	}
 }

@@ -61,13 +61,14 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 
 	Route::prefix('quotes')->group(function () {
 		Route::get('/', [QuoteController::class, 'index'])->name('quotes');
-		Route::post('/', [QuoteController::class, 'store'])->name('create.quote');
+		Route::post('/', [QuoteController::class, 'store'])->name('quotes.create');
+		Route::delete('/{quote}', [QuoteController::class, 'destroy'])->name('quotes.destroy');
 	});
 
 	Route::prefix('movies')->group(function () {
 		Route::get('/', [MovieController::class, 'index'])->name('movies.index');
 		Route::get('/user', [MovieController::class, 'userMovies'])->name('movies.user');
 		Route::post('/', [MovieController::class, 'store'])->name('movies.store');
-		Route::get('/{movie}', [MovieController::class, 'get'])->name('get.movie');
+		Route::get('/{movie}', [MovieController::class, 'get'])->name('movies.get');
 	});
 });
