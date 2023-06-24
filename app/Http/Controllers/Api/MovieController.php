@@ -90,4 +90,17 @@ class MovieController extends Controller
 
 		return response()->json(['message' => 'movie created'], 201);
 	}
+
+	public function destroy($id)
+	{
+		$movie = Movie::find($id);
+
+		if ($movie) {
+			DB::table('genre_movie')->where('movie_id', $id)->delete();
+			$movie->delete();
+			return response()->json(['message' => 'Movie deleted successfully'], 200);
+		} else {
+			return response()->json(['error' => 'Movie not found'], 404);
+		}
+	}
 }

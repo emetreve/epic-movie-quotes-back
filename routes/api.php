@@ -70,5 +70,6 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 		Route::get('/user', [MovieController::class, 'userMovies'])->name('movies.user');
 		Route::post('/', [MovieController::class, 'store'])->name('movies.store');
 		Route::get('/{movie}', [MovieController::class, 'get'])->name('movies.get');
+		Route::delete('/{movie}', [MovieController::class, 'destroy'])->name('movies.destroy');
 	});
 });
