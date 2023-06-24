@@ -24,7 +24,7 @@ class GenreSeeder extends Seeder
 
 		foreach ($genres as $genre) {
 			Genre::firstOrCreate([
-				'name' => json_encode($genre),
+				'name' => $genre,
 			]);
 		}
 	}
