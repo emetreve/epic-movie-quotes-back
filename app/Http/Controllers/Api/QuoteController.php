@@ -28,18 +28,18 @@ class QuoteController extends Controller
 		if ($search) {
 			if (Str::startsWith($search, '*')) {
 				$quotes = $quoteWithData->searchByBody($customQuery, $locale)
-					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			} elseif (Str::startsWith($search, '@')) {
 				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale)
-					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			} elseif ($search === '') {
-				$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+				$quotes = $quoteWithData->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			} else {
 				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale)
-					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			}
 		} else {
-			$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+			$quotes = $quoteWithData->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 		}
 
 		$paginationData = [
