@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreMovieRequest;
+use App\Http\Requests\UpdateMovieRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Movie;
@@ -102,5 +103,50 @@ class MovieController extends Controller
 		} else {
 			return response()->json(['error' => 'Movie not found'], 404);
 		}
+	}
+
+	public function update(UpdateMovieRequest $request, Movie $movie)
+	{
+		if ($request->file('image')) {
+			$movie->poster = '/storage/' . $request->file('image')->store('movies');
+		}
+
+		$movie->name = [
+			'en' => $request->input('nameEn'),
+			'ka' => $request->input('nameGe'),
+		];
+
+		$movie->user_id = auth()->user()->id;
+
+		$movie->director = [
+			'en' => $request->input('directorEn'),
+			'ka' => $request->input('directorGe'),
+		];
+
+		$movie->description = [
+			'en' => $request->input('descriptionEn'),
+			'ka' => $request->input('descriptionGe'),
+		];
+
+		$movie->year = $request->input('year');
+		$movie->revenue = $request->input('revenue');
+
+		$movie->save();
+
+        $genres = $request->input('genres');
+
+		if ($genres) {
+			DB::table('genre_movie')->where('movie_id', $movie->id)->delete();
+			$genres = json_decode($genres);
+			foreach ($genres as $genre) {
+				$genreId = $genre->id;
+				DB::table('genre_movie')->insert([
+					'genre_id' => $genreId,
+					'movie_id' => $movie->id,
+				]);
+			}
+		}
+
+		return response()->json($movie);
 	}
 }
