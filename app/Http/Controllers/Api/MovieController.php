@@ -133,18 +133,11 @@ class MovieController extends Controller
 
 		$movie->save();
 
-        $genres = $request->input('genres');
+		$genres = $request->input('genres');
 
 		if ($genres) {
-			DB::table('genre_movie')->where('movie_id', $movie->id)->delete();
-			$genres = json_decode($genres);
-			foreach ($genres as $genre) {
-				$genreId = $genre->id;
-				DB::table('genre_movie')->insert([
-					'genre_id' => $genreId,
-					'movie_id' => $movie->id,
-				]);
-			}
+			$genreIds = collect(json_decode($genres))->pluck('id')->toArray();
+			$movie->genres()->sync($genreIds);
 		}
 
 		return response()->json($movie);
