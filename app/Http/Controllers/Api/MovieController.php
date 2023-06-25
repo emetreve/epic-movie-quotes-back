@@ -97,7 +97,7 @@ class MovieController extends Controller
 		$movie = Movie::find($id);
 
 		if ($movie) {
-			DB::table('genre_movie')->where('movie_id', $id)->delete();
+			$movie->genres()->detach();
 			$movie->delete();
 			return response()->json(['message' => 'Movie deleted successfully'], 200);
 		} else {
