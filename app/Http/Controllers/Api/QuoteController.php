@@ -118,4 +118,15 @@ class QuoteController extends Controller
 			return response()->json(['error' => 'Quote not found'], 404);
 		}
 	}
+
+	public function get($id)
+	{
+		$quote = Quote::with('movie', 'user', 'likes', 'comments.user')->find($id);
+
+		if (!$quote) {
+			return response()->json(['error' => 'Quote not found'], 404);
+		}
+
+		return response()->json($quote);
+	}
 }
