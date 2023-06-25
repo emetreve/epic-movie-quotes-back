@@ -28,18 +28,18 @@ class QuoteController extends Controller
 		if ($search) {
 			if (Str::startsWith($search, '*')) {
 				$quotes = $quoteWithData->searchByBody($customQuery, $locale)
-					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			} elseif (Str::startsWith($search, '@')) {
 				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale)
-					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			} elseif ($search === '') {
-				$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+				$quotes = $quoteWithData->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			} else {
 				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale)
-					->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+					->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 			}
 		} else {
-			$quotes = $quoteWithData->orderBy('created_at', 'desc')->paginate(5, ['*'], 'page', $page);
+			$quotes = $quoteWithData->orderBy('created_at', 'desc')->orderBy('id', 'asc')->paginate(5, ['*'], 'page', $page);
 		}
 
 		$paginationData = [
@@ -105,5 +105,17 @@ class QuoteController extends Controller
 		}
 
 		return response()->json($quote, 201);
+	}
+
+	public function destroy($id)
+	{
+		$quote = Quote::find($id);
+
+		if ($quote) {
+			$quote->delete();
+			return response()->json(['message' => 'Quote deleted successfully'], 200);
+		} else {
+			return response()->json(['error' => 'Quote not found'], 404);
+		}
 	}
 }

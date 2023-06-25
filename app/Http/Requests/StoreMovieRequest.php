@@ -16,14 +16,11 @@ class StoreMovieRequest extends FormRequest
 		return [
 			'image'         => 'required|image|mimes:jpeg,png,jpg',
 			'genres'        => 'required',
-			'nameGe'        => 'required',
-			'nameEn'        => 'required',
+			'name'          => 'required',
 			'year'          => 'required',
 			'revenue'       => 'required',
-			'directorEn'    => 'required',
-			'directorGe'    => 'required',
-			'descriptionEn' => 'required',
-			'descriptionGe' => 'required',
+			'director'      => 'required',
+			'description'   => 'required',
 		];
 	}
 }
