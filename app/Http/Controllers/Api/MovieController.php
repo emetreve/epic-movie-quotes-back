@@ -115,19 +115,16 @@ class MovieController extends Controller
 		$movie->year = $request->input('year');
 		$movie->revenue = $request->input('revenue');
 
-		$name = json_decode($request->input('name'), true);
 		$movie->update([
-			'name' => $name,
+			'name' => json_decode($request->input('name'), true),
 		]);
 
-		$director = json_decode($request->input('director'), true);
 		$movie->update([
-			'director' => $director,
+			'director' => json_decode($request->input('director'), true),
 		]);
 
-		$description = json_decode($request->input('description'), true);
 		$movie->update([
-			'description' => $description,
+			'description' => json_decode($request->input('description'), true),
 		]);
 
 		$movie->save();
