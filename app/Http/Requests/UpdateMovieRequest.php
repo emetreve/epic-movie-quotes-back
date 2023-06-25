@@ -14,7 +14,7 @@ class UpdateMovieRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'image'         => 'nullable|image|mimes:jpeg,png,jpg',
+			'image'         => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,bmp',
 			'genres'        => 'nullable',
 			'nameGe'        => 'nullable',
 			'nameEn'        => 'nullable',
