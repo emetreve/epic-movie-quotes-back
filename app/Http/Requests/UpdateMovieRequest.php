@@ -16,14 +16,11 @@ class UpdateMovieRequest extends FormRequest
 		return [
 			'image'         => 'nullable|image|mimes:jpeg,png,jpg,webp,gif,bmp',
 			'genres'        => 'nullable',
-			'nameGe'        => 'nullable',
-			'nameEn'        => 'nullable',
+			'name'          => 'nullable',
 			'year'          => 'nullable',
 			'revenue'       => 'nullable',
-			'directorEn'    => 'nullable',
-			'directorGe'    => 'nullable',
-			'descriptionEn' => 'nullable',
-			'descriptionGe' => 'nullable',
+			'director'      => 'nullable',
+			'description'   => 'nullable',
 		];
 	}
 }
