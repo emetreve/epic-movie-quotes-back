@@ -111,25 +111,24 @@ class MovieController extends Controller
 			$movie->poster = '/storage/' . $request->file('image')->store('movies');
 		}
 
-		$movie->name = [
-			'en' => $request->input('nameEn'),
-			'ka' => $request->input('nameGe'),
-		];
-
 		$movie->user_id = auth()->user()->id;
-
-		$movie->director = [
-			'en' => $request->input('directorEn'),
-			'ka' => $request->input('directorGe'),
-		];
-
-		$movie->description = [
-			'en' => $request->input('descriptionEn'),
-			'ka' => $request->input('descriptionGe'),
-		];
-
 		$movie->year = $request->input('year');
 		$movie->revenue = $request->input('revenue');
+
+		$name = json_decode($request->input('name'), true);
+		$movie->update([
+			'name' => $name,
+		]);
+
+		$director = json_decode($request->input('director'), true);
+		$movie->update([
+			'director' => $director,
+		]);
+
+		$description = json_decode($request->input('description'), true);
+		$movie->update([
+			'description' => $description,
+		]);
 
 		$movie->save();
 
