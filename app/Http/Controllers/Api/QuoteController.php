@@ -10,6 +10,7 @@ use App\Models\Like;
 use Illuminate\Support\Str;
 use App\Events\LikeUpdated;
 use App\Events\NotificationUpdated;
+use App\Http\Requests\UpdateQuoteRequest;
 use App\Models\Notification;
 
 class QuoteController extends Controller
@@ -126,6 +127,23 @@ class QuoteController extends Controller
 		if (!$quote) {
 			return response()->json(['error' => 'Quote not found'], 404);
 		}
+
+		return response()->json($quote);
+	}
+
+	public function update(UpdateQuoteRequest $request, $id)
+	{
+		$quote = Quote::find($id);
+
+		if ($request->file('image')) {
+			$quote->image = '/storage/' . $request->file('image')->store('quotes');
+		}
+
+		$quote->update([
+			'body' => json_decode($request->input('body'), true),
+		]);
+
+		$quote->save();
 
 		return response()->json($quote);
 	}

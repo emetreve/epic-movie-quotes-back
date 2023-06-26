@@ -63,7 +63,8 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 		Route::get('/', [QuoteController::class, 'index'])->name('quotes');
 		Route::post('/', [QuoteController::class, 'store'])->name('quotes.create');
 		Route::delete('/{quote}', [QuoteController::class, 'destroy'])->name('quotes.destroy');
-        Route::get('/{quote}', [QuoteController::class, 'get'])->name('quotes.get');
+		Route::get('/{quote}', [QuoteController::class, 'get'])->name('quotes.get');
+		Route::patch('/{quote}', [QuoteController::class, 'update'])->name('quotes.update');
 	});
 
 	Route::prefix('movies')->group(function () {
@@ -72,6 +73,6 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 		Route::post('/', [MovieController::class, 'store'])->name('movies.store');
 		Route::get('/{movie}', [MovieController::class, 'get'])->name('movies.get');
 		Route::delete('/{movie}', [MovieController::class, 'destroy'])->name('movies.destroy');
-		Route::post('update/{movie}', [MovieController::class, 'update'])->name('movies.update');
+		Route::patch('/{movie}', [MovieController::class, 'update'])->name('movies.update');
 	});
 });

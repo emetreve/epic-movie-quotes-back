@@ -10,6 +10,8 @@ class Quote extends Model
 {
 	use HasFactory;
 
+	protected $guarded = [];
+
 	public $casts = [
 		'body' => 'array',
 	];
