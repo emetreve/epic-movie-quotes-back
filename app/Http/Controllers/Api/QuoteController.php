@@ -12,6 +12,7 @@ use App\Events\LikeUpdated;
 use App\Events\NotificationUpdated;
 use App\Http\Requests\UpdateQuoteRequest;
 use App\Models\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class QuoteController extends Controller
 {
@@ -128,7 +129,12 @@ class QuoteController extends Controller
 			return response()->json(['error' => 'Quote not found'], 404);
 		}
 
-		return response()->json($quote);
+		$fullImagePath = preg_replace('/storage\//', '', Storage::url($quote->image), 1);
+
+		$quoteWithFullUrl = $quote->toArray();
+		$quoteWithFullUrl['full_url'] = $fullImagePath;
+
+		return response()->json($quoteWithFullUrl);
 	}
 
 	public function update(UpdateQuoteRequest $request, $id)
