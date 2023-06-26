@@ -129,4 +129,18 @@ class QuoteController extends Controller
 
 		return response()->json($quote);
 	}
+
+	public function update(Request $request, Quote $quote)
+	{
+		if ($request->file('image')) {
+			$quote->image = '/storage/' . $request->file('image')->store('quotes');
+		}
+		$quote->update([
+			'body' => json_decode($request->input('body'), true),
+		]);
+
+		$quote->save();
+
+		return response()->json($quote);
+	}
 }

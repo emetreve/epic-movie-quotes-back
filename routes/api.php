@@ -64,6 +64,7 @@ Route::middleware(['verified', 'auth:sanctum', 'auth'])->group(function () {
 		Route::post('/', [QuoteController::class, 'store'])->name('quotes.create');
 		Route::delete('/{quote}', [QuoteController::class, 'destroy'])->name('quotes.destroy');
         Route::get('/{quote}', [QuoteController::class, 'get'])->name('quotes.get');
+        Route::post('update/{quote}', [QuoteController::class, 'update'])->name('quotes.update');
 	});
 
 	Route::prefix('movies')->group(function () {
