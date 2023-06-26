@@ -131,9 +131,8 @@ class QuoteController extends Controller
 		return response()->json($quote);
 	}
 
-	public function update(UpdateQuoteRequest $request)
+	public function update(UpdateQuoteRequest $request, $id)
 	{
-		$id = $request->input('id');
 		$quote = Quote::find($id);
 
 		if ($request->file('image')) {
