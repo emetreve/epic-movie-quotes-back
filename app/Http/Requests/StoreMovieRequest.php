@@ -14,7 +14,7 @@ class StoreMovieRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'image'         => 'required|image|mimes:jpeg,png,jpg',
+			'image'         => 'required|image|mimes:jpeg,png,jpg,webp,gif,bmp',
 			'genres'        => 'required',
 			'name'          => 'required',
 			'year'          => 'required',
