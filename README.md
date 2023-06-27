@@ -137,7 +137,7 @@ Project structure is fairly straitforward
 
 For more information about project standards, take a look at these docs:
 
--   [Laravel](https://laravel.com/docs/9.x/)
+-   [Laravel](https://laravel.com/docs/10.x/)
 
 #
 
