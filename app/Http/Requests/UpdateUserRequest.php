@@ -17,6 +17,8 @@ class UpdateUserRequest extends FormRequest
 			'username' => 'nullable|min:3|unique:users,name',
 			'password' => 'nullable|confirmed|max:15|min:8',
 			'avatar'   => 'nullable|image|mimes:jpg,jpeg,png',
+			'email'    => 'nullable|email|unique:users,email',
+			'locale'   => 'nullable|string',
 		];
 	}
 }
