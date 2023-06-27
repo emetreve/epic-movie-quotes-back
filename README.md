@@ -1,5 +1,5 @@
 <div style="display:flex; align-items: center">
-  <img src="readme/assets/redberrylogo.svg" alt="logo" width="220" style="margin-right: 20px" />
+  <img src="readme/assets/logo-redberry.png" alt="logo" width="220" style="margin-right: 20px" />
   <h1 style="position:relative; top: -6px" >Epic Movie Quotes API</h1>
 </div>
 
@@ -32,10 +32,10 @@ With the Epic Movie Quotes API, developers can access a wide range of endpoints 
 
 ### Tech Stack
 
--   <img src="readme/assets/laravel.png" height="21" style="position: relative; top: 4px" /> [Laravel@10.x](https://laravel.com/docs/10.x) - Back-end Framework
--   <img src="readme/assets/laravel.png" height="21" style="position: relative; top: 4px" /> [Laravel Sanctum@3.x](https://laravel.com/docs/10.x/sanctum) - Authentication System
--   <img src="readme/assets/laravel.png" height="21" style="position: relative; top: 4px" /> [Laravel Socialite@5.x](https://laravel.com/docs/10.x/socialite) - OAuth Authentication
--   <img src="readme/assets/pusher.png" height="21" style="position: relative; top: 4px" /> [Pusher](https://pusher.com/) - Real-time messaging and event-driven platform
+-   <img src="readme/assets/laravel.png" height="19" style="position: relative; top: 4px" /> [Laravel@10.x](https://laravel.com/docs/10.x) - Back-end Framework
+-   <img src="readme/assets/laravel-sanctum.png" height="19" style="position: relative; top: 4px" /> [Laravel Sanctum@3.x](https://laravel.com/docs/10.x/sanctum) - Authentication System
+-   <img src="readme/assets/laravel-socialite.png" height="19" style="position: relative; top: 4px" /> [Laravel Socialite@5.x](https://laravel.com/docs/10.x/socialite) - OAuth Authentication
+-   <img src="readme/assets/pusher.png" height="19" style="position: relative; top: 4px" /> [Pusher](https://pusher.com/) - Real-time messaging and event-driven platform
 
 #
 
