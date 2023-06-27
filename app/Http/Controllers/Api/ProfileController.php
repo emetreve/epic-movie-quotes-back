@@ -38,7 +38,7 @@ class ProfileController extends Controller
 				$locale = $data['locale'];
 				app()->setLocale($locale);
 				$newEmail = $data['email'];
-				Mail::send('emails.verify-email', ['name' => $user->name, 'url' => 'http://localhost:3000/' . $locale . '/dashboard/profile?changeEmail=' . $newEmail], function ($message) use ($newEmail) {
+				Mail::send('emails.verify-email', ['name' => $user->name, 'url' => config('app.spa_domain') . '/' . $locale . '/dashboard/profile?changeEmail=' . $newEmail], function ($message) use ($newEmail) {
 					$message->to($newEmail)->subject(__('verify-email.verify_email'));
 				});
 			}
