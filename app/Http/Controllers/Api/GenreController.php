@@ -11,8 +11,6 @@ class GenreController extends Controller
 	{
 		$genres = Genre::all();
 
-		$genres = $genres->makeHidden(['created_at', 'updated_at']);
-
 		return response()->json($genres);
 	}
 }

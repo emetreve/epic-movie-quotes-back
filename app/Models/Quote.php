@@ -36,6 +36,16 @@ class Quote extends Model
 		return $this->hasMany(Like::class)->select(['id', 'quote_id', 'user_id', 'like', 'created_at']);
 	}
 
+	public function scopeOrderByLatest($query)
+	{
+		return $query->orderBy('created_at', 'desc')->orderBy('id', 'asc');
+	}
+
+	public function scopePaginateQuotes($query, $perPage, $page)
+	{
+		return $query->paginate($perPage, ['*'], 'page', $page);
+	}
+
 	public function scopeSearchByBody($query, $search, $locale)
 	{
 		return $query->where('body->' . $locale, 'like', '%' . $search . '%');
