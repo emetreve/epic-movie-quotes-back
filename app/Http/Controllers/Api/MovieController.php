@@ -25,8 +25,6 @@ class MovieController extends Controller
 			$query->with('likes')->withCount(['likes', 'comments'])->orderBy('updated_at', 'desc');
 		}])->withCount('quotes')->first();
 
-		$movie->makeHidden(['updated_at', 'created_at']);
-
 		if ($movie) {
 			return response()->json($movie, 200);
 		} else {
