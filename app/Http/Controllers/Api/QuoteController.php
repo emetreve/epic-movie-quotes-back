@@ -20,29 +20,26 @@ class QuoteController extends Controller
 	{
 		$search = $request->query('search');
 		$locale = $request->query('locale');
+		$customQuery = Str::substr($search, 1);
+		$page = $request->query('page', 1);
 
 		$quoteWithData = Quote::with('movie', 'user', 'likes', 'comments.user');
 
-		$customQuery = Str::substr($search, 1);
-
-		$page = $request->query('page', 1);
-
 		if ($search) {
 			if (Str::startsWith($search, '*')) {
-				$quotes = $quoteWithData->searchByBody($customQuery, $locale)
-					->orderByLatest()->paginateQuotes(5, $page);
+				$quotes = $quoteWithData->searchByBody($customQuery, $locale);
 			} elseif (Str::startsWith($search, '@')) {
-				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale)
-					->orderByLatest()->paginateQuotes(5, $page);
+				$quotes = $quoteWithData->searchByMovieName($customQuery, $locale);
 			} elseif ($search === '') {
-				$quotes = $quoteWithData->orderByLatest()->paginateQuotes(5, $page);
+				$quotes = $quoteWithData;
 			} else {
-				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale)
-					->orderByLatest()->paginateQuotes(5, $page);
+				$quotes = $quoteWithData->searchByBodyAndMovieName($search, $locale);
 			}
 		} else {
-			$quotes = $quoteWithData->orderByLatest()->paginateQuotes(5, $page);
+			$quotes = $quoteWithData;
 		}
+
+		$quotes = $quotes->orderByLatest()->paginateQuotes(5, $page);
 
 		$paginationData = [
 			'current_page' => $quotes->currentPage(),
