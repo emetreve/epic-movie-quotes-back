@@ -6,6 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuoteRequest extends FormRequest
 {
+	protected function prepareForValidation()
+	{
+		$locale = $this->input('locale');
+		app()->setLocale($locale);
+
+		parent::prepareForValidation();
+	}
+
 	/**
 	 * Get the validation rules that apply to the request.
 	 *
