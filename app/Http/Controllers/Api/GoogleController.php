@@ -23,7 +23,9 @@ class GoogleController extends Controller
 
 		$user = User::where('email', $incomingUser->email)->where('is_google_user', 1)->first();
 
-		if (!$user) {
+		$userWithoutGoogleAccount = User::where('email', $incomingUser->email)->where('is_google_user', null)->first();
+
+		if (!$user && !$userWithoutGoogleAccount) {
 			$user = User::create([
 				'name'          => $incomingUser->name,
 				'email'         => $incomingUser->email,
@@ -31,12 +33,12 @@ class GoogleController extends Controller
 			]);
 			$user->markEmailAsVerified();
 			Auth::login($user);
-			return response()->json(['message' => 'User created successfully', 'user' => $user]);
-		} elseif ($user->is_google_user === 1) {
+			return response()->json(['message' => 'User created and logged in successfully', 'user' => $user]);
+		} elseif ($user) {
 			Auth::login($user);
 			return response()->json(['message' => 'User logged in successfully', 'user' => $user]);
-		} else {
-			return response()->json(['message' => 'User is not a Google user'], 400);
+		} elseif ($userWithoutGoogleAccount) {
+			return response()->json(['message' => 'User can not use google OAuth, they already have plain account'], 403);
 		}
 	}
 }
