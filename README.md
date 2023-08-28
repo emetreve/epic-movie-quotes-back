@@ -2,9 +2,9 @@
   <h1 style="position:relative; top: -6px" >Epic Movie Quotes API</h1>
 </div>
 
-Epic Movie Quotes API is built on Laravel and it serves as the backend for the Epic Movie Quotes application, providing a seamless and efficient way to interact with movie-related data.
+Epic Movie Quotes API is built on Laravel and it serves as the backend for the Epic Movie Quotes application.
 
-With the Epic Movie Quotes API, developers can access a wide range of endpoints to perform various operations. These include user authentication and authorization (including Google OAuth), allowing users to register, login, and manage their accounts securely. The API also offers endpoints for retrieving movie information, adding new movies, and performing CRUD operations on quotes and movies. It leverages Laravel's robust features such as routing, middleware, and database integration to ensure reliable and efficient data management. It also incorporates data validation and error handling to maintain the integrity of the API.
+With this API developers can access a wide range of endpoints to perform various operations. These include user authentication and authorisation (including Google OAuth), allowing users to register, login, and manage their accounts securely. Password recovery, email verification, real-time notifications and profile customisation features are also available. The API also offers endpoints for retrieving movie information, adding new movies, and performing CRUD operations on quotes and movies. It leverages Laravel's features such as routing, middleware, and database integration to ensure reliable and efficient data management. It also incorporates data validation and error handling to maintain the integrity of the API.
 
 #
 
